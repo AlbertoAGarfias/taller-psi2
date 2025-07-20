@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller de Orientación Psicológica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Quicksand:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6a82fb;
+            --secondary: #fc5c7d;
+            --accent: #fbc2eb;
+            --success: #4CAF50;
+            --info: #2196F3;
+            --warning: #ff9800;
+            --light: #fff;
+            --dark: #222;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Montserrat', 'Quicksand', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: bgmove 16s linear infinite alternate;
+        }
+        @keyframes bgmove {
+            0% {background-position: 0% 50%;}
+            100% {background-position: 100% 50%;}
+        }
+        .card {
+            background: rgba(255,255,255,0.93);
+            border-radius: 30px;
+            box-shadow: 0 8px 32px rgba(106,130,251,0.22), 0 1.5px 16px rgba(252,92,125,0.08);
+            max-width: 520px;
+            width: 100%;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+            animation: fadeIn 1s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(35px);}
+            to { opacity: 1; transform: none;}
+        }
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            left: 0; top: 0;
+            z-index: 0;
+        }
+        .floating-circle {
+            position: absolute;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
+            opacity: 0.13;
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+            filter: blur(2px);
+        }
+        .floating-circle:nth-child(1) { width: 70px; height: 70px; top: 12%; left: 8%; animation-delay: -2s;}
+        .floating-circle:nth-child(2) { width: 110px; height: 110px; top: 70%; right: 5%; animation-delay: -4s;}
+        .floating-circle:nth-child(3) { width: 50px; height: 50px; bottom: 10%; left: 22%; animation-delay: -1s;}
+        @keyframes float {
+            0%,100% { transform: translateY(0);}
+            50% { transform: translateY(-22px) scale(1.08);}
+        }
+        .header {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: var(--light);
+            padding: 36px 20px 24px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        .header h1 {
+            font-size: 2.1rem;
+            margin-bottom: 8px;
+            font-family: 'Quicksand',Arial,sans-serif;
+            text-shadow: 0 2px 0 #4CAF50,0 8px 10px rgba(106,130,251,0.08);
+        }
+        .header .subtitle {
+            font-size: 1.11rem;
+            opacity: 0.96;
+            font-weight: 500;
+            letter-spacing: 1.3px;
+        }
+        .content {
+            padding: 30px 22px 24px 22px;
+            position: relative;
+            z-index: 2;
+        }
+        .motivational-quote {
+            background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+            border-radius: 18px;
+            padding: 22px 18px 18px 18px;
+            margin-bottom: 26px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(106,130,251,0.18);
+            position: relative;
+        }
+        .motivational-quote::before {
+            content: "❝";
+            font-size: 4.3rem;
+            color: var(--secondary);
+            position: absolute;
+            top: -12px; left: 14px;
+            opacity: 0.18;
+            pointer-events: none;
+        }
+        .quote-text {
+            font-size: 1.14rem;
+            font-style: italic;
+            color: var(--dark);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .quote-author {
+            font-size: 0.94rem;
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 16px;
+            margin-bottom: 23px;
+        }
+        .info-item {
+            background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+            border-radius: 14px;
+            padding: 18px 10px 16px 10px;
+            text-align: center;
+            transition: transform 0.24s, box-shadow 0.24s;
+            cursor: pointer;
+            position: relative;
+            font-family: 'Quicksand',Arial,sans-serif;
+            box-shadow: 0 2px 10px #96e6a1a8;
+        }
+        .info-item:hover {
+            transform: translateY(-4px) scale(1.04);
+            box-shadow: 0 8px 24px #4caf5077;
+        }
+        .info-icon {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .info-label {
+            font-size: 0.88rem; color: #666; margin-bottom: 4px;
+            text-transform: uppercase; font-weight: 700; letter-spacing: 1.3px;
+        }
+        .info-value {
+            font-size: 1.09rem; font-weight: bold; color: var(--dark);
+        }
+        .instructor {
+            background: linear-gradient(135deg, #ffe29f 0%, #ffa99f 100%);
+            border-radius: 18px;
+            padding: 20px 18px;
+            text-align: center;
+            margin-bottom: 22px;
+            box-shadow: 0 6px 18px rgba(252,92,125,0.12);
+        }
+        .instructor h3 {
+            color: var(--success);
+            font-size: 1.22rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .instructor p {
+            color: #555;
+            font-size: 1.01rem;
+        }
+        .location-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 18px;
+            padding: 22px 18px;
+            margin-bottom: 22px;
+            box-shadow: 0 6px 18px #2196f344;
+        }
+        .location-title {
+            color: #2196F3;
+            font-size: 1.15rem;
+            margin-bottom: 13px;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 1.2px;
+        }
+        .address-info {
+            background: var(--light);
+            border-radius: 13px;
+            padding: 14px;
+            margin-bottom: 17px;
+            box-shadow: 0 2px 9px rgba(33,150,243,0.08);
+            text-align: center;
+        }
+        .address-text {
+            color: var(--dark);
+            font-size: 0.98rem;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        .map-container {
+            border-radius: 13px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px #2196f344;
+            margin-bottom: 8px;
+        }
+        .map-container iframe {
+            width: 100%;
+            height: 180px;
+            border: none;
+        }
+        .map-link {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: var(--light);
+            text-decoration: none;
+            padding: 9px 22px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.05rem;
+            box-shadow: 0 2px 10px #6a82fb44;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .map-link:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 8px 20px #6a82fb99;
+        }
+        .social-section {
+            background: linear-gradient(135deg, #c2e9fb 0%, #81fbb8 100%);
+            border-radius: 18px;
+            padding: 20px 18px;
+            margin-bottom: 22px;
+            box-shadow: 0 6px 18px #2196f333;
+        }
+        .social-title {
+            color: #1565c0;
+            font-size: 1.12rem;
+            margin-bottom: 13px;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: .5px;
+        }
+        .social-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px 15px;
+            background: var(--light);
+            border-radius: 13px;
+            box-shadow: 0 2px 8px #1565c033;
+            transition: transform 0.18s, box-shadow 0.18s;
+            text-decoration: none;
+            margin-bottom: 2px;
+        }
+        .social-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 6px 16px #1565c077;
+        }
+        .facebook-icon {
+            color: #1877f2;
+            font-size: 1.55rem;
+            width: 38px;
+            text-align: center;
+        }
+        .social-text {
+            flex: 1;
+            color: #333;
+            font-weight: 600;
+            font-family: 'Montserrat',Arial,sans-serif;
+        }
+        .contact-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 18px;
+            padding: 20px 18px;
+            margin-bottom: 22px;
+            box-shadow: 0 6px 18px #2222;
+        }
+        .contact-title {
+            color: var(--dark);
+            font-size: 1.12rem;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 14px;
+            background: var(--light);
+            border-radius: 13px;
+            box-shadow: 0 2px 8px #2222;
+            transition: transform 0.16s, box-shadow 0.16s;
+        }
+        .contact-item:hover {
+            transform: translateX(3px);
+            box-shadow: 0 6px 12px #2224;
+        }
+        .contact-icon {
+            font-size: 1.4rem;
+            width: 34px;
+            text-align: center;
+        }
+        .contact-text {
+            flex: 1;
+            color: var(--dark);
+        }
+        .contact-link {
+            color: var(--success);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.24s;
+        }
+        .contact-link:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+        .contact-form {
+            background: linear-gradient(135deg, #ffe29f 0%, #ffa99f 100%);
+            border-radius: 18px;
+            padding: 20px 18px;
+            margin-bottom: 22px;
+            box-shadow: 0 6px 18px #ffa99f44;
+        }
+        .form-title {
+            color: var(--dark);
+            font-size: 1.11rem;
+            margin-bottom: 16px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 13px;
+            border: 2px solid #e0e0e0;
+            border-radius: 11px;
+            font-size: 0.96rem;
+            font-family: inherit;
+            background: var(--light);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            resize: vertical;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--success);
+            box-shadow: 0 0 0 2px #4caf5044;
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #999;
+        }
+        .form-submit-btn {
+            background: linear-gradient(90deg, var(--success) 0%, var(--info) 100%);
+            color: var(--light);
+            border: none;
+            padding: 12px 1px;
+            border-radius: 23px;
+            font-size: 1.02rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            box-shadow: 0 4px 15px #4caf5033;
+            transition: transform 0.21s, box-shadow 0.21s;
+        }
+        .form-submit-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 8px 24px #2196f355;
+        }
+        .cta-button {
+            background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
+            color: var(--light);
+            border: none;
+            padding: 16px 0;
+            border-radius: 40px;
+            font-size: 1.08rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1.1px;
+            box-shadow: 0 8px 25px #fc5c7d44;
+            position: relative;
+            margin-top: 8px;
+            transition: transform 0.13s, box-shadow 0.13s;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 14px 32px #fc5c7d55;
+        }
+        @media (max-width: 600px) {
+            .card { max-width: 98vw; border-radius: 16px;}
+            .content, .header, .motivational-quote,
+            .instructor, .location-section, .contact-section,
+            .social-section, .contact-form { padding: 11px;}
+            .info-grid { grid-template-columns: 1fr; gap: 11px;}
+            .map-container iframe { height: 120px;}
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="floating-elements">
+            <div class="floating-circle"></div>
+            <div class="floating-circle"></div>
+            <div class="floating-circle"></div>
+        </div>
+        <div class="header">
+            <h1>🧠 Taller de Orientación Psicológica</h1>
+            <p class="subtitle">Invierte en tu bienestar mental</p>
+        </div>
+        <div class="content">
+            <div class="motivational-quote">
+                <div class="quote-text">
+                    "El primer paso hacia el cambio es la conciencia. El segundo paso es la aceptación. El tercer paso es la acción."
+                </div>
+                <div class="quote-author">— Nathaniel Branden</div>
+            </div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-icon">📅</span>
+                    <div class="info-label">Día</div>
+                    <div class="info-value">Martes</div>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">⏰</span>
+                    <div class="info-label">Horario</div>
+                    <div class="info-value">8:00 - 9:00 AM</div>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">💰</span>
+                    <div class="info-label">Inversión</div>
+                    <div class="info-value">$30</div>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">👥</span>
+                    <div class="info-label">Dirigido a</div>
+                    <div class="info-value">Público General</div>
+                </div>
+            </div>
+            <div class="instructor">
+                <h3>👨‍⚕️ Lic. Alberto Ángeles</h3>
+                <p>Licenciado en Psicología</p>
+            </div>
+            <div class="location-section">
+                <h3 class="location-title">📍 Ubicación del Consultorio</h3>
+                <div class="address-info">
+                    <div class="address-text">
+                        <strong>Avenida José María Pino Suárez #80</strong><br>
+                        Entre Morelos y Josefa Ortiz
+                    </div>
+                    <a href="https://www.google.com/maps?q=19.2846881,-99.6211001&z=17&hl=es" target="_blank" class="map-link">
+                        🗺️ Ver en Google Maps
+                    </a>
+                </div>
+                <div class="map-container">
+                    <iframe
+                        src="https://www.google.com/maps?q=19.2846881,-99.6211001&z=17&hl=es&output=embed"
+                        allowfullscreen
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Mapa Consultorio"
+                    ></iframe>
+                </div>
+            </div>
+            <div class="social-section">
+                <h3 class="social-title">🌐 Redes Sociales</h3>
+                <a href="https://www.facebook.com/profile.php?id=100086022831324" target="_blank" class="social-item">
+                    <span class="facebook-icon">📘</span>
+                    <span class="social-text">Síguenos en Facebook</span>
+                </a>
+            </div>
+            <div class="contact-section">
+                <h3 class="contact-title">📞 Información de Contacto</h3>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span class="contact-icon">📱</span>
+                        <span class="contact-text">
+                            <strong>WhatsApp:</strong> 
+                            <a href="https://wa.me/527226540066" class="contact-link" target="_blank">+52 722 654-0066</a>
+                        </span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">☎️</span>
+                        <span class="contact-text">
+                            <strong>Teléfono:</strong> 
+                            <a href="tel:+525598765432" class="contact-link">+52 55 9876-5432</a>
+                        </span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">✉️</span>
+                        <span class="contact-text">
+                            <strong>Correo:</strong> 
+                            <a href="mailto:alberto.angeles.g@gmail.com" class="contact-link">alberto.angeles.g@gmail.com</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form">
+                <h3 class="form-title">📧 Solicita más información</h3>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="name" placeholder="Tu nombre completo" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" placeholder="Tu correo electrónico" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="phone" placeholder="Tu teléfono (opcional)">
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" placeholder="¿Tienes alguna pregunta o comentario?" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="form-submit-btn">
+                        📧 Enviar consulta
+                    </button>
+                </form>
+            </div>
+            <button class="cta-button" type="button">
+                ✨ ¡Transforma tu vida hoy! ✨
+            </button>
+        </div>
+    </div>
+    <script>
+        // Animación info-item
+        document.querySelectorAll('.info-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px) scale(1.04)';
+            });
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Formulario: WhatsApp
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const message = document.getElementById('message').value.trim();
+            if (!name || !email) {
+                alert('Por favor, ingresa tu nombre y correo electrónico.');
+                return;
+            }
+            let whatsappMessage = `¡Hola! Me interesa el Taller de Orientación Psicológica.\n\n`;
+            whatsappMessage += `📝 Mis datos:\n`;
+            whatsappMessage += `• Nombre: ${name}\n`;
+            whatsappMessage += `• Email: ${email}\n`;
+            if (phone) whatsappMessage += `• Teléfono: ${phone}\n`;
+            if (message) whatsappMessage += `• Mensaje: ${message}\n`;
+            whatsappMessage += `\n🗓️ Horario: Martes 8:00-9:00 AM\n💰 Inversión: $30\n`;
+            whatsappMessage += `📍 Dirección: Av. José María Pino Suárez #80, entre Morelos y Josefa Ortiz`;
+            const whatsappNumber = '527226540066';
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+            window.open(whatsappURL, '_blank');
+            const submitBtn = document.querySelector('.form-submit-btn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '✅ ¡Mensaje enviado!';
+            submitBtn.style.background = 'linear-gradient(90deg,#4CAF50,#2196F3)';
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.style.background = '';
+                document.getElementById('contactForm').reset();
+            }, 2600);
+        });
+
+        // Botón CTA scroll
+        document.querySelector('.cta-button').addEventListener('click', function() {
+            this.style.transform = 'scale(0.97)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 140);
+            document.querySelector('.contact-form').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+        });
+    </script>
+</body>
+</html>
